@@ -1,130 +1,24 @@
-# Java BNI Project
+# OpenShift Clients
 
-This is a simple Spring Boot API that provides user **registration** and **login** functionality using **Oracle SQL** as the database.
+The OpenShift client `oc` simplifies working with Kubernetes and OpenShift
+clusters, offering a number of advantages over `kubectl` such as easy login,
+kube config file management, and access to developer tools. The `kubectl`
+binary is included alongside for when strict Kubernetes compliance is necessary.
 
----
+To learn more about OpenShift, visit [docs.openshift.com](https://docs.openshift.com)
+and select the version of OpenShift you are using.
 
-## 🚀 Features
+## Installing the tools
 
-- User registration (`/api/auth/register`)
-- User login (`/api/auth/login`)
-- Password encryption with BCrypt
-- Spring Data JPA for database interaction
-- Spring Security (only for password encoding)
-- Oracle Database integration
+After extracting this archive, move the `oc` and `kubectl` binaries
+to a location on your PATH such as `/usr/local/bin`. Then run:
 
----
+    oc login [API_URL]
 
-## 🧱 Tech Stack
+to start a session against an OpenShift cluster. After login, run `oc` and
+`oc help` to learn more about how to get started with OpenShift.
 
-- Java 17+
-- Spring Boot
-- Spring Data JPA
-- Spring Security (minimal config)
-- Oracle Database XE
-- Maven
+## License
 
----
-
-## 📦 Project Structure
-
-```
-src/main/java/com/bni/bni/
-├── config/           # Security config
-├── controller/       # API endpoints
-├── entity/           # JPA entities
-├── repository/       # Spring Data JPA interfaces
-├── service/          # Business logic
-```
-
----
-
-## ⚙️ Setup & Run
-
-### 1. Prerequisites
-
-- Java 17+
-- Maven
-- Oracle Database (XE or standard)
-- Postman (for testing)
-
-### 2. Clone the Repository
-
-```bash
-git clone https://github.com/frammawiliansyah/java-bni-project.git
-cd java-bni-project
-```
-
-### 3. Configure Database Connection
-
-Edit `src/main/resources/application.properties`:
-
-```properties
-spring.datasource.url=jdbc:oracle:thin:@localhost:1521/XEPDB1
-spring.datasource.username=auth_user
-spring.datasource.password=your_password
-spring.jpa.database-platform=org.hibernate.dialect.OracleDialect
-```
-
-> Make sure your Oracle DB is running and the user has sufficient privileges.
-
-### 4. Create Database Table
-
-```sql
--- Connect as admin (e.g., SYS or SYSTEM) and run:
-CREATE USER auth_user IDENTIFIED BY your_password;
-GRANT CONNECT, RESOURCE TO auth_user;
-ALTER USER auth_user QUOTA UNLIMITED ON USERS;
-
--- Login as auth_user and run:
-CREATE TABLE users (
-  username VARCHAR2(50) PRIMARY KEY,
-  password_hash VARCHAR2(255),
-  role VARCHAR2(20)
-);
-```
-
-### 5. Run the Application
-
-```bash
-./mvnw spring-boot:run
-```
-
----
-
-## 🧪 API Endpoints (Test with Postman)
-
-### Register
-`POST /api/auth/register`  
-**Body (JSON):**
-```json
-{
-  "username": "demo",
-  "password": "123456"
-}
-```
-
-### Login
-`POST /api/auth/login`  
-**Body (JSON):**
-```json
-{
-  "username": "demo",
-  "password": "123456"
-}
-```
-
----
-
-## 📚 Resources
-
-- Spring Boot Docs: https://spring.io/projects/spring-boot  
-- Oracle JDBC Docs: https://docs.oracle.com/en/database/oracle  
-- Spring Security Password Encoding: https://www.baeldung.com/spring-security-registration-password-encoding  
-
----
-
-## 📌 Notes
-
-- The project uses Spring Security only for password encryption; it does not enforce authentication on protected routes.
-- No JWT implementation yet (can be added as next step).
+OpenShift is licensed under the Apache Public License 2.0. The source code for this
+program is [located on github](https://github.com/openshift/oc).

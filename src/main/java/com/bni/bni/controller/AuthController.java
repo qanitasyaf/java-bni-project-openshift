@@ -76,7 +76,6 @@ public class AuthController {
 
             response.put("status", 200);
             response.put("username", claims.getSubject());
-            response.put("role", claims.get("role"));
             response.put("issuedAt", claims.getIssuedAt());
             response.put("expiration", claims.getExpiration());
 
