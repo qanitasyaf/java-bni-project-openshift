@@ -1,4 +1,4 @@
-package com.bni.bni.controller;
+package com.bni.bni.controller; //Focused in a endpoint for user authentication and registration
 
 import com.bni.bni.service.AuthService;
 import com.bni.bni.util.JwtUtil;
@@ -43,6 +43,7 @@ public class AuthController {
         if (token != null) {
             response.put("status", 200);
             response.put("token", token);
+            response.put("message", "Login successful");
             return ResponseEntity.ok(response);
         } else {
             response.put("status", 401);
