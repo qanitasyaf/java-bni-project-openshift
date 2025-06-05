@@ -24,8 +24,8 @@ public class AuthController {
     public ResponseEntity<Map<String, Object>> register(@RequestBody Map<String, String> body) {
         String username = body.get("username");
         String password = body.get("password");
-        String confirmPassword = body.get("confirmPassword"); // Assuming this is the third argument
-        String message = authService.register(username, password, confirmPassword);
+        String emailAddress = body.get("emailAddress"); // Assuming email is also provided
+        String message = authService.register(username, password, emailAddress);
 
         Map<String, Object> response = new HashMap<>();
         response.put("status", 200);
