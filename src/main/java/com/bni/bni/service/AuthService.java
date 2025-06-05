@@ -30,8 +30,8 @@ public class AuthService {
         User user = new User();
         user.setUsername(username);
         user.setPasswordHash(encoder.encode(password));
-
         user.setCreatedAt(OffsetDateTime.now());
+        user.setUpdatedAt(OffsetDateTime.now());
         user.setEmailAddress(emailAddress); 
         user.setIsActive(true); 
         repo.save(user);
@@ -41,7 +41,7 @@ public class AuthService {
     public String login(String username, String password) {
         Optional<User> user = repo.findByUsername(username);
         if (user.isPresent() && encoder.matches(password, user.get().getPasswordHash())) {
-            return jwtUtil.generateToken(username, user.get().getRole());
+            return jwtUtil.generateToken(username, "USER");
         }
 
         return null;

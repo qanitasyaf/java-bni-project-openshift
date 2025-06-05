@@ -17,18 +17,13 @@ public class User {
     @Column(name = "password", nullable = false)
     private String passwordHash;
 
-    @Column(nullable = false)
-    private String role;
-
     @Column(name = "email_address", unique = true, nullable = false)
     private String emailAddress;
 
     @Column(name = "created_at", nullable = false)
     private OffsetDateTime createdAt;
-
-    @Column(name = "updated_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private java.util.Date updatedAt;
+    @Column(name = "updated_at", nullable = false)
+    private OffsetDateTime updatedAt;
 
     @Column(name = "is_active")
     private boolean isActive;
@@ -37,13 +32,13 @@ public class User {
       // default constructor
     }
 
-    public User(String username, String passwordHash, String role, String emailAddress, OffsetDateTime createdAt, Boolean isActive) {
+    public User(String username, String passwordHash, String role, String emailAddress, OffsetDateTime createdAt,OffsetDateTime updatedAt, Boolean isActive) {
         this.username = username;
         this.passwordHash = passwordHash;
-        this.role = role;
         this.emailAddress = emailAddress;
         this.isActive = isActive;
         this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public Long getId() {
@@ -70,14 +65,6 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public String getEmailAddress() {
         return emailAddress;
     }
@@ -101,4 +88,14 @@ public class User {
     public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
     }
+
+    
+    public OffsetDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
+        this.updatedAt = updatedAt; // Ensure no syntax issues here
+    }
+
 }
