@@ -22,7 +22,7 @@ public class AuthService {
     @Autowired
     private JwtUtil jwtUtil;
 
-    public String register(String username, String password) {
+    public String register(String username, String password, String emailAddress) {
         if (repo.existsByUsername(username)) {
             return "User already exists";
         }
@@ -30,10 +30,11 @@ public class AuthService {
         User user = new User();
         user.setUsername(username);
         user.setPasswordHash(encoder.encode(password));
-        user.setRole("USER");
-        user.setCreatedAt(OffsetDateTime.now());
-        repo.save(user);
 
+        user.setCreatedAt(OffsetDateTime.now());
+        user.setEmailAddress(emailAddress); 
+        user.setIsActive(true); 
+        repo.save(user);
         return "Registered successfully";
     }
 
