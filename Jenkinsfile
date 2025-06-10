@@ -20,12 +20,12 @@ pipeline{
         }
     }
 
-    post (
+    post {
         success {
             echo 'Build & Deployment Successfull via OpenShift BuildConfig!'
         }
         failure {
             echo 'Build or Deployment Failed!'
         }
-    )
+    }
 }
