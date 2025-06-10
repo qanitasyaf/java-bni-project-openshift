@@ -30,7 +30,16 @@ spec:
           httpGet:
             path: /
             port: 8080
-          initalDelaySeconds: 5
+            scheme: HTTP
+          initialDelaySeconds: 5 # Perbaikan typo: 'initalDelaySeconds' menjadi 'initialDelaySeconds'
           periodSeconds: 10
           timeoutSeconds: 5
           failureThreshold: 3
+        volumeMounts: # <-- Tambahan ini
+        - name: upload-storage
+          mountPath: /var/www/html/uploads # Contoh path. Sesuaikan dengan kebutuhan Adminer atau aplikasi Anda.
+          # readOnly: false # Opsional: Setel ke true jika hanya untuk membaca
+      volumes: # <-- Tambahan ini
+      - name: upload-storage
+        persistentVolumeClaim:
+          claimName: upload-pvc # Pastikan PVC ini sudah ada
