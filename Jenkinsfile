@@ -6,6 +6,7 @@ pipeline{
         BUILD_NAME = "java-bni-project-git"
     }
 
+
     stages {
         stage('Trigger Build in OpenShift'){
             steps {
