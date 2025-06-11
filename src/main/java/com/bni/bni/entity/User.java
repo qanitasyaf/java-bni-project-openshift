@@ -17,25 +17,34 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "email_address", unique = true, nullable = false)
-    private String emailAddress;
-
     @Column(name = "created_at", nullable = false)
     private OffsetDateTime createdAt;
 
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "email_address", nullable = false) 
+    private String emailAddress;
+
+    @Column(name = "is_active", nullable = false) 
+    private Boolean isActive;
+
+    @Column(name = "updated_at", nullable = false) 
     private OffsetDateTime updatedAt;
 
-    @Column(name = "is_active")
-    private boolean isActive;
 
     public User() {
       // default constructor
     }
 
+    public User(String username, String password, String role, OffsetDateTime createdAt, String emailAddress, Boolean isActive, OffsetDateTime updatedAt) {
+        this.username = username;
+        this.password = password;
+        this.createdAt = createdAt;
+        this.emailAddress = emailAddress;
+        this.isActive = isActive;
+        this.updatedAt = updatedAt;
+    }
 
     public Long getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(Long id) {
@@ -43,56 +52,51 @@ public class User {
     }
 
     public String getUsername() {
-        return this.username;
+        return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
+
     public String getPassword() {
-        return this.password;
+        return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getEmailAddress() {
-        return this.emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-
     public OffsetDateTime getCreatedAt() {
-        return this.createdAt;
+        return createdAt;
     }
 
     public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
+
     public OffsetDateTime getUpdatedAt() {
-        return this.updatedAt;
+        return updatedAt;
     }
 
     public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
-
-    public boolean isIsActive() {
-        return this.isActive;
-    }
-
-    public boolean getIsActive() {
-        return this.isActive;
-    }
-
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
-    }
-    
-
 }

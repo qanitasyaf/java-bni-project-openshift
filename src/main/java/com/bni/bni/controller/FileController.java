@@ -16,52 +16,47 @@ import java.util.Map;
 public class FileController {
     @Value("${file.upload-dir}")
     private String uploadDir;
-
     @PostMapping("/upload")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
-            // Save the file to the upload directory
             Path uploadPath = Paths.get(uploadDir);
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
             }
-            
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
             Path filePath = uploadPath.resolve(fileName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-            
-            String fileUrl = "/api/files/" + fileName; // Adjust this URL as needed
+
+            String fileUrl = "api/files/" + fileName;
 
             return ResponseEntity.ok().body(
-                Map.of(
-                    "status", 200,
-                    "message", "File uploaded successfully",
-                    "fileName", fileName,
-                    "fileUrl", fileUrl
-                )
-            );
-
-        } catch (IOException e) {
+                    Map.of(
+                        "status", 200,   
+                        "message", "File uploaded successfully",
+                        "fileUrl", fileUrl
+                    )
+                );
+        }
+        catch (IOException e) {
             return ResponseEntity.status(500).body(
-                Map.of(
+                Map.of
+                    (
                     "status", 500,
-                    "message", "Couldn't upload the file " + e.getMessage()
-                )
+                    "message", "Failed to upload file: " + e.getMessage()
+                    )
             );
         }
     }
-   
+
     @GetMapping("/{fileName:.+}")
-    public ResponseEntity<Resource> getFile(@PathVariable String fileName) {
+    public ResponseEntity<Resource> serveFile(@PathVariable String fileName) {
         try {
-            Path filePath = Paths.get(uploadDir).resolve(fileName).normalize();
-            Resource resource = new UrlResource(filePath.toUri());
-
-            if (!resource.exists()){
+            Path file = Paths.get(uploadDir).resolve(fileName).normalize();
+            Resource resource = new UrlResource(file.toUri());
+            if (!resource.exists()) {
                 return ResponseEntity.notFound().build();
-            }
-
-            String contentType = Files.probeContentType(filePath);
+            } 
+            String contentType = Files.probeContentType(file);
             if (contentType == null) {
                 contentType = "application/octet-stream";
             }
@@ -70,7 +65,8 @@ public class FileController {
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION,"inline; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
-        } catch (Exception e){
+
+        } catch (Exception e) {
             return ResponseEntity.status(500).build();
         }
     }

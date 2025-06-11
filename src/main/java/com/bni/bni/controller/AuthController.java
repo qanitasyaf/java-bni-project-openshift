@@ -24,14 +24,25 @@ public class AuthController {
     public ResponseEntity<Map<String, Object>> register(@RequestBody Map<String, String> body) {
         String username = body.get("username");
         String password = body.get("password");
-        String emailAddress = body.get("emailAddress"); // Assuming email is also provided
+        String emailAddress = body.get("emailAddress");
+            if (emailAddress == null || username == null || password == null) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", 400);
+            response.put("message", "Username, password, and emailAddress are required.");
+            return ResponseEntity.status(400).body(response);
+        }
         String message = authService.register(username, password, emailAddress);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("status", 200);
-        response.put("message", message);
-
-        return ResponseEntity.ok(response);
+        if (message.equals("Registered successfully")) {
+            response.put("status", 200);
+            response.put("message", message);
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("status", 409); // Conflict if user or email exists
+            response.put("message", message);
+            return ResponseEntity.status(409).body(response);
+        }
     }
 
     @PostMapping("/login")
@@ -41,12 +52,17 @@ public class AuthController {
         String token = authService.login(username, password);
 
         Map<String, Object> response = new HashMap<>();
-        if (token != null) {
+        if (token != null && !token.equals("User is not active")) { 
             response.put("status", 200);
             response.put("token", token);
-            response.put("message", "hello");
+            response.put("message", "Login successfully");
             return ResponseEntity.ok(response);
-        } else {
+        } else if (token != null && token.equals("User is not active")) {
+            response.put("status", 403); 
+            response.put("message", token);
+            return ResponseEntity.status(403).body(response);
+        }
+        else {
             response.put("status", 401);
             response.put("message", "Invalid credentials");
             return ResponseEntity.status(401).body(response);
