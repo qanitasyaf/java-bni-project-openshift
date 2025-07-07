@@ -10,7 +10,6 @@ and select the version of OpenShift you are using.
 
 ## Installing the tools
 
-
 After extracting this archive, move the `oc` and `kubectl` binaries
 to a location on your PATH such as `/usr/local/bin`. Then run:
 
